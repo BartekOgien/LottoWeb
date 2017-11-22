@@ -34,10 +34,10 @@ public class DrawsGetter {
         int numberIndex = 0;
         int numberOfDot = 0;
 
-        for(Element elementList: drawElements) {
+        for (Element elementList : drawElements) {
             Elements elementUl = elementList.select("ul");
 
-            for(Element elementUlResult: elementUl) {
+            for (Element elementUlResult : elementUl) {
                 elementString = elementUlResult.toString();
                 numberIndex = elementString.indexOf(ID_STRING);
                 numberOfDot = elementString.indexOf(".");
@@ -52,7 +52,7 @@ public class DrawsGetter {
 
                 tempStringNumbers = "";
 
-                for(int i=0; i<6; i++) {
+                for (int i = 0; i < 6; i++) {
                     elementString = elementNumbers.get(i).toString();
                     numberIndex = elementString.indexOf(NUMBERS_STRING);
                     numberOfDot = elementString.indexOf(" </li>");
@@ -66,16 +66,11 @@ public class DrawsGetter {
 
                 try {
                     drawNumbersDao.save(drawNumber);
-                }
-                catch (NullPointerException e) {
-                    System.out.println("null");
-                }
-                catch (DataIntegrityViolationException ex) {
+                } catch (DataIntegrityViolationException ex) {
                     System.out.println("duplicate entry");
                 }
             }
         }
-
 
 
     }
