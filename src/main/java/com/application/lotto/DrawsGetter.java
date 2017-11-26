@@ -11,6 +11,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DrawsGetter {
@@ -19,7 +21,7 @@ public class DrawsGetter {
     private final String NUMBERS_STRING = "numbers_in_list \">";
     private int drawId;
     private String drawDate;
-    private String numbers;
+    private List<Integer> numbers = new ArrayList<>();
     private DrawNumber drawNumber;
 
     @Autowired
@@ -30,7 +32,6 @@ public class DrawsGetter {
         Elements drawElements = document.select("div.lista_ostatnich_losowan");
         String elementString;
         String tempString;
-        String tempStringNumbers;
         int numberIndex = 0;
         int numberOfDot = 0;
 
@@ -50,7 +51,7 @@ public class DrawsGetter {
 
                 Elements elementNumbers = elementUlResult.select("li.numbers_in_list");
 
-                tempStringNumbers = "";
+                numbers.clear();
 
                 for(int i=0; i<6; i++) {
                     elementString = elementNumbers.get(i).toString();
@@ -58,10 +59,9 @@ public class DrawsGetter {
                     numberOfDot = elementString.indexOf(" </li>");
                     tempString = elementString.substring(numberIndex + 18, numberOfDot);
 
-                    tempStringNumbers = tempStringNumbers + " " + tempString;
+                    numbers.add(Integer.valueOf(tempString));
                 }
 
-                numbers = tempStringNumbers.trim();
                 drawNumber = new DrawNumber(drawId, drawDate, numbers);
 
                 try {
@@ -75,8 +75,6 @@ public class DrawsGetter {
                 }
             }
         }
-
-
 
     }
 }

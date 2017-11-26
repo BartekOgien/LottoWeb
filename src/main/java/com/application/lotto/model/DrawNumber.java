@@ -2,9 +2,10 @@ package com.application.lotto.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
-@Table(name = "DRAW_RESULTS2")
+@Table(name = "DRAW_RESULTS1")
 public class DrawNumber {
     @Id
     @GeneratedValue
@@ -19,24 +20,16 @@ public class DrawNumber {
     private String dateOfDraw;
 
     @Column(name = "DRAW_NUMBERS")
-    private String drawNumbers;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<Integer> numbers;
 
-    public DrawNumber(int id, String dateOfDraw, String drawNumbers) {
+    public DrawNumber(int id, String dateOfDraw, List<Integer> numbers) {
         this.drawId = id;
         this.dateOfDraw = dateOfDraw;
-        this.drawNumbers = drawNumbers;
+        this.numbers = numbers;
     }
 
     public DrawNumber() {
-    }
-
-    @Override
-    public String toString() {
-        return "DrawNumber{" +
-                "drawId=" + drawId +
-                ", dateOfDraw='" + dateOfDraw + '\'' +
-                ", drawNumbers='" + drawNumbers + '\'' +
-                '}';
     }
 
     public int getDrawId() {
@@ -55,11 +48,20 @@ public class DrawNumber {
         dateOfDraw = dateOfDraw;
     }
 
-    public String getDrawNumbers() {
-        return drawNumbers;
+    public int getId() {
+        return Id;
     }
 
-    public void setDrawNumbers(String drawNumbers) {
-        this.drawNumbers = drawNumbers;
+    public void setId(int id) {
+        Id = id;
     }
+
+    public List<Integer> getNumbers() {
+        return numbers;
+    }
+
+    public void setNumbers(List<Integer> numbers) {
+        this.numbers = numbers;
+    }
+
 }
