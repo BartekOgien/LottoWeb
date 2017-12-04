@@ -23,8 +23,9 @@ public class LottoController {
     @RequestMapping(method = RequestMethod.GET, value = "compare")
     public int[] compareNumbers(@RequestParam int... numbers) {
         int numbersWon = 0;
+        int numberOfDraws = dbService.getNumbersOfAllDraws();
 
-        for(int i = 1; i <= dbService.getNumbersOfAllDraws(); i++) {
+        for(int i = 1; i <= numberOfDraws; i++) {
 
             for(int k = 0; k <= numbers.length - 1; k++) {
 
