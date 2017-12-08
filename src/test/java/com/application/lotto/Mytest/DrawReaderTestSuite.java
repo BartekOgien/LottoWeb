@@ -9,12 +9,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class Tescik {
+public class DrawReaderTestSuite {
     @Autowired
     DrawReader drawReader;
 
     @Test
-    public void gogo() {
+    public void shouldGetAllData() {
             drawReader.getDataOfAllDraws();
     }
 }

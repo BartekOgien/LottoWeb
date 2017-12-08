@@ -10,12 +10,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TestGettera {
+public class GetDrawNumberDataTestSuite {
     @Autowired
     DrawNumbersDao drawNumbersDao;
 
     @Test
-    public void testujemy() {
+    public void shouldGetData() {
         DrawNumber drawNumber = drawNumbersDao.findDrawNumberByDrawId(4);
         System.out.println(drawNumber.getDateOfDraw());
         System.out.println(drawNumber.getDrawId());

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 public class DrawReader {
     private final static String URL = "http://megalotto.pl/wyniki/lotto/losowania-z-roku-";
     private final static int YEAR_OF_DRAW_BEGIN = 1957;
-    private final static int YEAR_OF_DRAW_END = 1958;
+    private final static int YEAR_OF_DRAW_END = 1967;
     //private final static int YEAR_OF_DRAW_END = LocalDate.now().getYear();
 
     @Autowired

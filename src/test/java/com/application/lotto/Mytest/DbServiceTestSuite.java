@@ -9,12 +9,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class Numbertests {
+public class DbServiceTestSuite {
     @Autowired
     DbService dbService;
 
     @Test
-    public void testNumbers() {
+    public void shouldGetBumbers() {
         System.out.println(dbService.getNumbersOfAllDraws());
     }
 }
