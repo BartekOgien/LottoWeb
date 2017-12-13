@@ -1,5 +1,8 @@
 package com.application.lotto.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -21,6 +24,7 @@ public class DrawNumber {
 
     @Column(name = "DRAW_NUMBERS")
     @ElementCollection(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Integer> numbers;
 
     public DrawNumber(int id, String dateOfDraw, List<Integer> numbers) {

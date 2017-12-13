@@ -1,5 +1,6 @@
 package com.application.lotto.controller;
 
+import com.application.lotto.model.DrawNumber;
 import com.application.lotto.repository.DbService;
 import com.application.lotto.repository.DrawNumbersDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
@@ -27,30 +30,41 @@ public class LottoController {
     DrawNumbersDao drawNumbersDao;
 
     @RequestMapping(method = RequestMethod.GET, value = "compare")
-    public int[] compareNumbers(@RequestParam int... numbers) {
-        Arrays.fill(howManyNumbersGet, 0);
-        long start = 0;
-        long end = 0;
-        int numbersWon = 0;
-        int numberOfDraws = dbService.getNumbersOfAllDraws();
-        start = System.currentTimeMillis();
+    public List<Integer> compareNumbers(@RequestParam List<Integer> numbers) {
 
-        for(int i = 1; i <= numberOfDraws; i++) {
-            drawNumbers = drawNumbersDao.findDrawNumberByDrawId(i).getNumbers();
-
-                numbersWon = (int)IntStream.range(0, 6)
-                        .filter(n -> drawNumbers.contains(numbers[n]))
-                        .count();
-
-            if(numbersWon >=3) {
-                howManyNumbersGet[numbersWon-3] ++;
-            }
-
-            numbersWon = 0;
+        if (numbers.size() != 6) {
+            throw new RuntimeException();
         }
 
-        end = System.currentTimeMillis();
-        System.out.println(end - start);
-    return howManyNumbersGet;
+        List<DrawNumber> drawNumbers = drawNumbersDao.findAll();
+
+        List<Set<Integer>> resultsNumbersInEachDrawNumbersCollection = new ArrayList<>();
+        for (Integer integer : numbers) {
+            Set<Integer> drawNumberIds = drawNumbers.stream()
+                    .filter(drawNumber -> drawNumber.getNumbers().contains(integer))
+                    .map(DrawNumber::getId)
+                    .collect(Collectors.toSet());
+            resultsNumbersInEachDrawNumbersCollection.add(drawNumberIds);
+        }
+
+        List<Integer> resultsPerDrawNumber = new ArrayList<>();
+        for(DrawNumber drawNumber : drawNumbers){
+
+            Integer predicted = (int)resultsNumbersInEachDrawNumbersCollection.stream().filter(set -> set.contains(drawNumber.getId())).count();
+            resultsPerDrawNumber.add(predicted);
+        }
+
+
+        List<Integer> ans = new ArrayList<>();
+        for(int i = 0 ; i <= numbers.size() ; i++){
+            int iCopy = i;
+            int count = (int)resultsPerDrawNumber.stream().filter(predicted -> predicted == iCopy).count();
+            ans.add(count);
+        }
+
+        ans.remove(0);
+        ans.remove(0);
+        ans.remove(0);
+        return ans;
     }
 }

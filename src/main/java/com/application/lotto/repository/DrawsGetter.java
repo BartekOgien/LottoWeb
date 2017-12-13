@@ -1,7 +1,6 @@
-package com.application.lotto;
+package com.application.lotto.repository;
 
 import com.application.lotto.model.DrawNumber;
-import com.application.lotto.repository.DrawNumbersDao;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,6 +18,10 @@ public class DrawsGetter {
     private final String ID_STRING = "nr_in_list\">";
     private final String DATE_STRING = "date_in_list\">";
     private final String NUMBERS_STRING = "numbers_in_list \">";
+    private final String LISTS_HTML = " </li>";
+    private final String DIV_HTML = "div.lista_ostatnich_losowan";
+    private final String ULISTS_HTML = "ul";
+    private final String LISTNUMBERS_HTML = "li.numbers_in_list";
     private int drawId;
     private String drawDate;
     private List<Integer> numbers = new ArrayList<>();
@@ -37,7 +40,7 @@ public class DrawsGetter {
         for(int i=0; i<6; i++) {
             elementString = elementNumbers.get(i).toString();
             numberIndex = elementString.indexOf(NUMBERS_STRING);
-            numberOfDot = elementString.indexOf(" </li>");
+            numberOfDot = elementString.indexOf(LISTS_HTML);
             tempString = elementString.substring(numberIndex + 18, numberOfDot);
 
             numbers.add(Integer.valueOf(tempString));
@@ -46,11 +49,11 @@ public class DrawsGetter {
 
     public void getDataFromHTML(String url) throws IOException {
         Document document = Jsoup.connect(url).get();
-        Elements drawElements = document.select("div.lista_ostatnich_losowan");
+        Elements drawElements = document.select(DIV_HTML);
 
 
         for(Element elementList: drawElements) {
-            Elements elementUl = elementList.select("ul");
+            Elements elementUl = elementList.select(ULISTS_HTML);
 
             for(Element elementUlResult: elementUl) {
                 elementString = elementUlResult.toString();
@@ -63,7 +66,7 @@ public class DrawsGetter {
                 tempString = elementString.substring(numberIndex + 14, numberIndex + 24);
                 drawDate = tempString;
 
-                Elements elementNumbers = elementUlResult.select("li.numbers_in_list");
+                Elements elementNumbers = elementUlResult.select(LISTNUMBERS_HTML);
                 getNumbersFromHTML(elementNumbers);
                 drawNumber = new DrawNumber(drawId, drawDate, numbers);
 
