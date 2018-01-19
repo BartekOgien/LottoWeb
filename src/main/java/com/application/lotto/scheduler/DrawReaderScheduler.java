@@ -36,7 +36,7 @@ public class DrawReaderScheduler {
     }
 
     @Scheduled(cron = "0 0 0 2 1 ?")
-    public void getDrawsInNewYear (){
+    public void getLastDrawsFromOldYear (){
         try {
             drawsGetter.getDataFromHTML(DrawReader.URL + (LocalDate.now().getYear()-1));
         }

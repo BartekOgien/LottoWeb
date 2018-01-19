@@ -1,0 +1,73 @@
+package com.application.lotto.repository;
+
+import com.application.lotto.model.DrawNumber;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@Service
+public class DrawCalculator {
+    private static final BigDecimal COST_PER_DRAW = new BigDecimal(3.0);
+    private static final int[] CASH_PER_NUMBER = {24, 200, 5800, 2000000};
+
+    @Autowired
+    DbService dbService;
+
+    @Autowired
+    DrawNumbersDao drawNumbersDao;
+
+    public BigDecimal calculateCostOfAllDraws() {
+        return BigDecimal.valueOf(dbService.getNumbersOfAllDraws()).multiply(COST_PER_DRAW);
+    }
+
+    public List<Integer> compareNumbers(List<Integer> numbers) {
+        if (numbers.size() != 6) {
+            throw new RuntimeException();
+        }
+
+        List<DrawNumber> drawNumbers = drawNumbersDao.findAll();
+
+        List<Set<Integer>> resultsNumbersInEachDrawNumbersCollection = new ArrayList<>();
+        for (Integer integer : numbers) {
+            Set<Integer> drawNumberIds = drawNumbers.stream()
+                    .filter(drawNumber -> drawNumber.getNumbers().contains(integer))
+                    .map(DrawNumber::getId)
+                    .collect(Collectors.toSet());
+            resultsNumbersInEachDrawNumbersCollection.add(drawNumberIds);
+        }
+
+        List<Integer> resultsPerDrawNumber = new ArrayList<>();
+        for(DrawNumber drawNumber : drawNumbers){
+
+            Integer predicted = (int)resultsNumbersInEachDrawNumbersCollection.stream().filter(set -> set.contains(drawNumber.getId())).count();
+            resultsPerDrawNumber.add(predicted);
+        }
+
+        List<Integer> ans = new ArrayList<>();
+        for(int i = 0 ; i <= numbers.size() ; i++){
+            int iCopy = i;
+            int count = (int)resultsPerDrawNumber.stream().filter(predicted -> predicted == iCopy).count();
+            ans.add(count);
+        }
+
+        ans.remove(0);
+        ans.remove(0);
+        ans.remove(0);
+        return ans;
+    }
+
+    public int wonCash(List<Integer> wonNumbers) {
+        int wonCash = 0;
+        if(wonNumbers.size() == 4) {
+            for (int i = 0; i < 4; i++) {
+                wonCash += wonNumbers.get(i) * CASH_PER_NUMBER[i];
+            }
+        }
+        return wonCash;
+    }
+}
