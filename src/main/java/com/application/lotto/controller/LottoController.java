@@ -1,8 +1,6 @@
 package com.application.lotto.controller;
 
-import com.application.lotto.repository.DbService;
-import com.application.lotto.repository.DrawCalculator;
-import com.application.lotto.repository.DrawNumbersDao;
+import com.application.lotto.facade.LottoFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,31 +17,25 @@ import java.util.List;
 public class LottoController {
 
     @Autowired
-    DbService dbService;
-
-    @Autowired
-    DrawNumbersDao drawNumbersDao;
-
-    @Autowired
-    DrawCalculator drawCalculator;
+    LottoFacade lottoFacade;
 
     @RequestMapping(method = RequestMethod.GET, value = "compare")
     public List<Integer> compareNumbers(@RequestParam List<Integer> numbers) {
-        return drawCalculator.compareNumbers(numbers);
+        return lottoFacade.facadeCompareNumbers(numbers);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "drawCounts")
     public int getDrawCounts() {
-        return dbService.getNumbersOfAllDraws();
+        return lottoFacade.getFacadeDrawCounts();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "drawCost")
     public BigDecimal getDrawCost() {
-        return drawCalculator.calculateCostOfAllDraws();
+        return lottoFacade.getFacadeDrawCost();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "howManyWon")
     public int howManyWon(@RequestParam List<Integer> wonNumbers) {
-        return drawCalculator.wonCash(wonNumbers);
+        return lottoFacade.facadeHowManyWon(wonNumbers);
     }
 }
