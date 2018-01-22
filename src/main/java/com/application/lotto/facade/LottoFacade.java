@@ -6,9 +6,7 @@ import com.application.lotto.repository.DrawCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 
 @Component
 public class LottoFacade {
@@ -22,24 +20,28 @@ public class LottoFacade {
     @Autowired
     private YourNumber yourNumber;
 
-    public List<Integer> facadeCompareNumbers(List<Integer> numbers) {
-        return drawCalculator.compareNumbers(numbers);
+    public List<Integer> facadeCompareNumbers() {
+        return drawCalculator.compareNumbers();
     }
 
     public int getFacadeDrawCounts() {
         return dbService.getNumbersOfAllDraws();
     }
 
-    public BigDecimal getFacadeDrawCost() {
+    public int calculateProfit() {
+        return drawCalculator.getHowManyWon() - getFacadeDrawCost();
+    }
+
+    public int getFacadeDrawCost() {
         return drawCalculator.calculateCostOfAllDraws();
     }
 
-    public int facadeHowManyWon(List<Integer> wonNumbers) {
-        return drawCalculator.wonCash(wonNumbers);
+    public int facadeHowManyWon() {
+        return drawCalculator.wonCash();
     }
 
-    public Set<Integer> yourChooseNumbers() {
-        return yourNumber.getYourNumbers();
+    public String yourChooseNumbers() {
+        return yourNumber.getStringYourNumbers();
     }
 
     public void addChoosenNumber(int number) {

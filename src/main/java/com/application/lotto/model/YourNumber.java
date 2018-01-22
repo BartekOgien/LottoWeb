@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class YourNumber {
@@ -20,6 +21,13 @@ public class YourNumber {
 
     public Set<Integer> getYourNumbers() {
         return yourNumbers;
+    }
+
+    public String getStringYourNumbers() {
+        String numbersString = yourNumbers.stream()
+                                .map(n -> String.valueOf(n))
+                                .collect(Collectors.joining("  "));
+        return numbersString;
     }
 
     public void resetYourNumbers() {

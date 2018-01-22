@@ -1,10 +1,10 @@
 package com.application.lotto.repository;
 
 import com.application.lotto.model.DrawNumber;
+import com.application.lotto.model.YourNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -12,8 +12,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class DrawCalculator {
-    private static final BigDecimal COST_PER_DRAW = new BigDecimal(3.0);
+    private static final int COST_PER_DRAW = 3;
     private static final int[] CASH_PER_NUMBER = {24, 200, 5800, 2000000};
+    private int howManyWon = 0;
 
     @Autowired
     DbService dbService;
@@ -21,11 +22,15 @@ public class DrawCalculator {
     @Autowired
     DrawNumbersDao drawNumbersDao;
 
-    public BigDecimal calculateCostOfAllDraws() {
-        return BigDecimal.valueOf(dbService.getNumbersOfAllDraws()).multiply(COST_PER_DRAW);
+    @Autowired
+    YourNumber yourNumber;
+
+    public int calculateCostOfAllDraws() {
+        return dbService.getNumbersOfAllDraws() * COST_PER_DRAW;
     }
 
-    public List<Integer> compareNumbers(List<Integer> numbers) {
+    public List<Integer> compareNumbers() {
+        Set<Integer> numbers = yourNumber.getYourNumbers();
         if (numbers.size() != 6) {
             throw new RuntimeException();
         }
@@ -61,13 +66,19 @@ public class DrawCalculator {
         return ans;
     }
 
-    public int wonCash(List<Integer> wonNumbers) {
+    public int wonCash() {
+        List<Integer> wonNumbers = compareNumbers();
         int wonCash = 0;
         if(wonNumbers.size() == 4) {
             for (int i = 0; i < 4; i++) {
                 wonCash += wonNumbers.get(i) * CASH_PER_NUMBER[i];
             }
         }
+        this.howManyWon = wonCash;
         return wonCash;
+    }
+
+    public int getHowManyWon() {
+        return howManyWon;
     }
 }
