@@ -29,8 +29,7 @@ public class DrawCalculator {
         return dbService.getNumbersOfAllDraws() * COST_PER_DRAW;
     }
 
-    public List<Integer> compareNumbers() {
-        Set<Integer> numbers = yourNumber.getYourNumbers();
+    public List<Integer> compareNumbers(List<Integer> numbers) {
         if (numbers.size() != 6) {
             throw new RuntimeException();
         }
@@ -66,17 +65,17 @@ public class DrawCalculator {
         return ans;
     }
 
-    public int wonCash() {
-        List<Integer> wonNumbers = compareNumbers();
-        int wonCash = 0;
-        if(wonNumbers.size() == 4) {
-            for (int i = 0; i < 4; i++) {
-                wonCash += wonNumbers.get(i) * CASH_PER_NUMBER[i];
-            }
-        }
-        this.howManyWon = wonCash;
-        return wonCash;
-    }
+//    public int wonCash() {
+//        List<Integer> wonNumbers = compareNumbers();
+//        int wonCash = 0;
+//        if(wonNumbers.size() == 4) {
+//            for (int i = 0; i < 4; i++) {
+//                wonCash += wonNumbers.get(i) * CASH_PER_NUMBER[i];
+//            }
+//        }
+//        this.howManyWon = wonCash;
+//        return wonCash;
+//    }
 
     public int getHowManyWon() {
         return howManyWon;

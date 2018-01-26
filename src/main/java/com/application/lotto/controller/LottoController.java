@@ -15,8 +15,8 @@ public class LottoController {
     LottoFacade lottoFacade;
 
     @RequestMapping(method = RequestMethod.GET, value = "compare")
-    public List<Integer> compareNumbers() {
-        return lottoFacade.facadeCompareNumbers();
+    public List<Integer> compareNumbers(@RequestParam List<Integer> numbers) {
+        return lottoFacade.facadeCompareNumbers(numbers);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "drawCounts")

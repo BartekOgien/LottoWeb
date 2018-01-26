@@ -20,8 +20,8 @@ public class LottoFacade {
     @Autowired
     private YourNumber yourNumber;
 
-    public List<Integer> facadeCompareNumbers() {
-        return drawCalculator.compareNumbers();
+    public List<Integer> facadeCompareNumbers(List<Integer> numbers) {
+        return drawCalculator.compareNumbers(numbers);
     }
 
     public int getFacadeDrawCounts() {
