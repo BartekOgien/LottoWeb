@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 public class DrawCalculator {
     private static final int COST_PER_DRAW = 3;
     private static final int[] CASH_PER_NUMBER = {24, 200, 5800, 2000000};
-    private int howManyWon = 0;
 
     @Autowired
     DbService dbService;
@@ -65,19 +64,13 @@ public class DrawCalculator {
         return ans;
     }
 
-//    public int wonCash() {
-//        List<Integer> wonNumbers = compareNumbers();
-//        int wonCash = 0;
-//        if(wonNumbers.size() == 4) {
-//            for (int i = 0; i < 4; i++) {
-//                wonCash += wonNumbers.get(i) * CASH_PER_NUMBER[i];
-//            }
-//        }
-//        this.howManyWon = wonCash;
-//        return wonCash;
-//    }
-
-    public int getHowManyWon() {
-        return howManyWon;
+    public int wonCash(List<Integer> wonNumbers) {
+        int wonCash = 0;
+        if(wonNumbers.size() == 4) {
+            for (int i = 0; i < 4; i++) {
+                wonCash += wonNumbers.get(i) * CASH_PER_NUMBER[i];
+            }
+        }
+        return wonCash;
     }
 }

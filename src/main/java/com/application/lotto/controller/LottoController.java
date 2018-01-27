@@ -15,7 +15,7 @@ public class LottoController {
     LottoFacade lottoFacade;
 
     @RequestMapping(method = RequestMethod.GET, value = "compare")
-    public List<Integer> compareNumbers(@RequestParam List<Integer> numbers) {
+    public List<Integer> compareNumbersAndCalculateHowManyWon(@RequestParam List<Integer> numbers) {
         return lottoFacade.facadeCompareNumbers(numbers);
     }
 
@@ -27,11 +27,6 @@ public class LottoController {
     @RequestMapping(method = RequestMethod.GET, value = "drawCost")
     public int getDrawCost() {
         return lottoFacade.getFacadeDrawCost();
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "howManyWon")
-    public int howManyWon() {
-        return lottoFacade.facadeHowManyWon();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "yourNumbers")
@@ -47,10 +42,5 @@ public class LottoController {
     @RequestMapping(method = RequestMethod.DELETE, value = "resetNumbers")
     public void resetYourNumbers() {
         lottoFacade.resetNumbers();
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "profit")
-    public int getProfit() {
-        return lottoFacade.calculateProfit();
     }
 }
