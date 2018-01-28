@@ -1,7 +1,6 @@
 package com.application.lotto.repository;
 
 import com.application.lotto.model.DrawNumber;
-import com.application.lotto.model.YourNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +19,6 @@ public class DrawCalculator {
 
     @Autowired
     DrawNumbersDao drawNumbersDao;
-
-    @Autowired
-    YourNumber yourNumber;
 
     public int calculateCostOfAllDraws() {
         return dbService.getNumbersOfAllDraws() * COST_PER_DRAW;

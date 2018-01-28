@@ -29,18 +29,4 @@ public class LottoController {
         return lottoFacade.getFacadeDrawCost();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "yourNumbers")
-    public String getYourChoosenNumbers() {
-        return lottoFacade.yourChooseNumbers();
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "chooseNumber")
-    public void getYourChooseNumbers(@RequestParam int number) {
-        lottoFacade.addChoosenNumber(number);
-    }
-
-    @RequestMapping(method = RequestMethod.DELETE, value = "resetNumbers")
-    public void resetYourNumbers() {
-        lottoFacade.resetNumbers();
-    }
 }
