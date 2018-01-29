@@ -28,5 +28,4 @@ public class LottoController {
     public int getDrawCost() {
         return lottoFacade.getFacadeDrawCost();
     }
-
 }
