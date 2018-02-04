@@ -25,8 +25,7 @@ public class DrawReaderScheduler {
     @Autowired
     private DrawsGetter drawsGetter;
 
-    //@Scheduled(cron = "0 0 10 * * *")
-    @Scheduled(cron = "0 0 * * * *")
+    @Scheduled(cron = "0 0 10 * * *")
     public void getDataOfDraws() {
         if(dbService.getNumbersOfAllDraws() == 0 || dbService.getNumbersOfAllDraws() < DRAWSCOUNT) {
             log.info("Starting read data of all draws");
