@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Service
 public class DrawCalculator {
     private static final int COST_PER_DRAW = 3;
-    private static final int[] CASH_PER_NUMBER = {24, 200, 5800, 2000000};
+    private static final int[] CASH_PER_NUMBER = {24, 200, 5_800, 2_000_000};
 
     @Autowired
     DbService dbService;

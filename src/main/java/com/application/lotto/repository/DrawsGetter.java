@@ -1,6 +1,7 @@
 package com.application.lotto.repository;
 
 import com.application.lotto.model.DrawNumber;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class DrawsGetter {
     private final String ID_STRING = "nr_in_list\">";
@@ -74,10 +76,10 @@ public class DrawsGetter {
                     drawNumbersDao.save(drawNumber);
                 }
                 catch (NullPointerException e) {
-                    System.out.println("null");
+                    log.error(e.getMessage());
                 }
                 catch (DataIntegrityViolationException ex) {
-                    System.out.println("duplicate entry");
+                    log.error(ex.getMessage());
                 }
             }
         }

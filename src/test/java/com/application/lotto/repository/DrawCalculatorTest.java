@@ -49,7 +49,7 @@ public class DrawCalculatorTest {
         int resultZeros = drawCalculator.wonCash(wonNumbersZeros);
 
         //Then
-        assertEquals(2006024, resultOnes);
+        assertEquals(2_006_024, resultOnes);
         assertEquals(0, resultZeros);
     }
 }
