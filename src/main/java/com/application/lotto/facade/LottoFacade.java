@@ -17,19 +17,16 @@ public class LottoFacade {
     @Autowired
     private DbService dbService;
 
-    public List<Integer> facadeCompareNumbers(List<Integer> numbers) {
+    public List<Integer> facadeGetResult(List<Integer> numbers) {
         List<Integer> numbersWon = drawCalculator.compareNumbers(numbers);
         List<Integer> resultList = new ArrayList<>(numbersWon);
-        resultList.add(facadeHowManyWon(numbersWon));
+        int howManyWon = facadeHowManyWon(numbersWon);
+        resultList.add(howManyWon);
+        int cost = drawCalculator.calculateCostOfAllDraws();
+        resultList.add(cost);
+        resultList.add(dbService.getNumbersOfAllDraws());
+        resultList.add(howManyWon - cost);
         return resultList;
-    }
-
-    public int getFacadeDrawCounts() {
-        return dbService.getNumbersOfAllDraws();
-    }
-
-    public int getFacadeDrawCost() {
-        return drawCalculator.calculateCostOfAllDraws();
     }
 
     public int facadeHowManyWon(List<Integer> wonNumbers) {
